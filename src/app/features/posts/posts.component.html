@@ -6,7 +6,7 @@
     </button>
   </div>
 
-  <!-- Formulario de Crear -->
+  <!-- formulario para crear posts -->
   <div *ngIf="showCreateForm" class="form-wrapper">
     <app-post-form
       (formSubmit)="onCreatePost($event)"
@@ -14,7 +14,7 @@
     </app-post-form>
   </div>
 
-  <!-- Formulario de Editar -->
+  <!-- formulario para editar posts -->
   <div *ngIf="editingPost" class="form-wrapper">
     <app-post-form
       [post]="editingPost"
@@ -23,7 +23,7 @@
     </app-post-form>
   </div>
 
-  <!-- Lista de Posts -->
+  <!-- listar posts -->
   <div *ngIf="!showCreateForm && !editingPost" class="posts-grid">
     <div *ngFor="let post of posts" class="post-card">
       <h3>{{ post.title }}</h3>
@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <!-- Modal de detalle -->
+  <!-- Modal -->
   <div *ngIf="selectedPost" class="modal-overlay" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="close-button" (click)="closeModal()">&times;</button>
