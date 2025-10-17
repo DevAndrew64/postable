@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestión de Publicaciones</h1>
+    <button (click)="openCreateForm()" class="btn btn-create" *ngIf="!showCreateForm && !editingPost">
+      + Nueva Publicación
+    </button>
+  </div>
+
+  <!-- Formulario de Crear -->
+  <div *ngIf="showCreateForm" class="form-wrapper">
+    <app-post-form
+      (formSubmit)="onCreatePost($event)"
+      (formCancel)="closeForm()">
+    </app-post-form>
+  </div>
+
+  <!-- Formulario de Editar -->
+  <div *ngIf="editingPost" class="form-wrapper">
+    <app-post-form
+      [post]="editingPost"
+      (formSubmit)="onUpdatePost($event)"
+      (formCancel)="closeForm()">
+    </app-post-form>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando publicaciones...</p>
+  </div>
+
+  <!-- Lista de Posts -->
+  <div *ngIf="!loading && !showCreateForm && !editingPost" class="posts-grid">
+    <div *ngFor="let post of posts" class="post-card">
+      <h3>{{ post.title }}</h3>
+      <p class="user-id">Usuario: {{ post.userId }}</p>
+      <p class="body">{{ post.body }}</p>
+
+      <div class="actions">
+        <button (click)="viewPost(post)" class="btn btn-view">Ver</button>
+        <button (click)="openEditForm(post)" class="btn btn-edit">Editar</button>
+        <button (click)="deletePost(post.id)" class="btn btn-delete">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de detalle -->
+  <div *ngIf="selectedPost" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-button" (click)="closeModal()">&times;</button>
+      <h2>{{ selectedPost.title }}</h2>
+      <div class="detail-info">
+        <p><strong>ID:</strong> {{ selectedPost.id }}</p>
+        <p><strong>Usuario:</strong> {{ selectedPost.userId }}</p>
+      </div>
+      <div class="detail-body">
+        <strong>Contenido:</strong>
+        <p>{{ selectedPost.body }}</p>
+      </div>
+      <button (click)="closeModal()" class="btn btn-close">Cerrar</button>
+    </div>
+  </div>
+</div>
