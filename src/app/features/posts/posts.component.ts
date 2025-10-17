@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PostService } from '../../core/services/post.service';
 import { Post, CreatePostDto, UpdatePostDto } from '../../core/models/post.model';
 import { PostFormComponent } from './components/post-form/post-form.component';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-posts',
@@ -18,7 +19,10 @@ export class PostsComponent implements OnInit {
   showCreateForm: boolean = false;
   editingPost: Post | null = null;
 
-  constructor(private postService: PostService) {}
+  constructor(
+    private postService: PostService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.loadPosts();
@@ -34,7 +38,7 @@ export class PostsComponent implements OnInit {
       error: (error) => {
         console.error('Error loading posts:', error);
         this.loading = false;
-        alert('Error al cargar las publicaciones');
+        this.toastService.error('Error al cargar las publicaciones');
       }
     });
   }
@@ -56,13 +60,13 @@ export class PostsComponent implements OnInit {
   onCreatePost(postData: CreatePostDto): void {
     this.postService.createPost(postData).subscribe({
       next: (newPost: Post) => {
-        this.posts.unshift(newPost); // Agregar al inicio
+        this.posts.unshift(newPost);
         this.showCreateForm = false;
-        alert('Publicación creada exitosamente');
+        this.toastService.success('¡Publicación creada exitosamente!');
       },
       error: (error) => {
         console.error('Error creating post:', error);
-        alert('Error al crear la publicación');
+        this.toastService.error('Error al crear la publicación');
       }
     });
   }
@@ -76,11 +80,11 @@ export class PostsComponent implements OnInit {
             this.posts[index] = updatedPost;
           }
           this.editingPost = null;
-          alert('Publicación actualizada exitosamente');
+          this.toastService.success('¡Publicación actualizada exitosamente!');
         },
         error: (error) => {
           console.error('Error updating post:', error);
-          alert('Error al actualizar la publicación');
+          this.toastService.error('Error al actualizar la publicación');
         }
       });
     }
@@ -91,11 +95,11 @@ export class PostsComponent implements OnInit {
       this.postService.deletePost(id).subscribe({
         next: () => {
           this.posts = this.posts.filter(p => p.id !== id);
-          alert('Publicación eliminada exitosamente');
+          this.toastService.success('¡Publicación eliminada exitosamente!');
         },
         error: (error) => {
           console.error('Error deleting post:', error);
-          alert('Error al eliminar la publicación');
+          this.toastService.error('Error al eliminar la publicación');
         }
       });
     }
