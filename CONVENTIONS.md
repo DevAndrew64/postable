@@ -30,6 +30,6 @@ refactor(service): optimize API calls
 
 ## Flujo de trabajo con Ramas
 - **main**: Rama principal estable
-- **develop**: Rama de desarrollo
+- **Implementaciones**: Rama de desarrollo
 - **feature/nombre**: Nuevas características
 - **fix/nombre**: Corrección de bugs
