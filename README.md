@@ -41,7 +41,7 @@ npm install -g @angular/cli
 1. Clonar el repositorio
 ```bash
 git clone 
-cd post-pal
+cd postable
 ```
 
 2. Instalar dependencias
